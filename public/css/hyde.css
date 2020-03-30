@@ -99,6 +99,14 @@ a.sidebar-nav-item:focus {
   font-weight: bold;
 }
 
+/* Sidebar Photo */
+.sidebar img.photo {
+  border-radius: 50%;
+  opacity: .7;
+  width: 50%;
+  margin-left: 25%;
+}
+
 /* Sticky sidebar
  *
  * Add the `sidebar-sticky` class to the sidebar's container to affix it the
