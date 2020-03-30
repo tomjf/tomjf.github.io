@@ -101,9 +101,9 @@ a.sidebar-nav-item:focus {
 
 /* Sidebar Photo */
 .sidebar img.photo {
-  border-radius: 50%;
-  opacity: .7;
-  width: 50%;
+  border-radius: 60%;
+  opacity: 1.0;
+  width: 60%;
   margin-left: 25%;
 }
 

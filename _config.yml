@@ -5,7 +5,7 @@ highlighter:      pygments
 # Setup
 title:            Tom Fletcher
 tagline:          'A Jekyll theme'
-description:      'Astrophysics PhD Student'
+description:      'Astrophysics PhD Student at UCL'
 url:              https://tomjf.github.io
 baseurl:          /
 
