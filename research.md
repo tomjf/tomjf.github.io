@@ -4,7 +4,7 @@ layout: page
 order: 3
 ---
 
-A full list of my publications can be found at my <br/><a class="openSourceLink" href="https://orcid.org/0000-0002-1633-1117"><i class="fab fa-orcid"></i> ORCID</a> or <br/><a class="openSourceLink" href="https://scholar.google.com/citations?user=FcaLV1gAAAAJ&hl=en"><i class="fas fa-graduation-cap"></i> Google Scholar</a> pages.
+A full list of my publications can be found at my <a class="openSourceLink" href="https://orcid.org/0000-0002-1633-1117"><i class="fab fa-orcid"></i> ORCID</a> or <a class="openSourceLink" href="https://scholar.google.com/citations?user=FcaLV1gAAAAJ&hl=en"><i class="fas fa-graduation-cap"></i> Google Scholar</a> pages.
 
 + 2020, [The Cosmic Abundance of Cold Gas in the Local Universe](http://arxiv.org/abs/2002.04959v1) (submitted to MNRAS), __T. Fletcher__, A. Saintonge, P. Soares, A. Pontzen, MNRAS, _An analysis of the amount of molecular gas, the fuel for star formation, in the present-day Universe.
 
