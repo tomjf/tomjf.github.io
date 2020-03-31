@@ -6,7 +6,7 @@ order: 3
 
 ### The First Galaxies
 
-![Frontier Fields](public/images/Fronter_fields.jpg)
+![Frontier Fields](public/images/Frontier_fields.jpg)
 
 ### The Local Universe
 
