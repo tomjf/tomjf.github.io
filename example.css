@@ -4,10 +4,10 @@ html {
 body {
 	font-family: Inter;
 	font-weight:lighter;
-	color: #2E383F;
+	color: #FFFFFF;
 	height: 100%;
 	margin: 0px;
-	background: #fcf8e8;
+	background: #1f1b24;
 	line-height: 1.5
 	/* line-height: 200%; */
 }
