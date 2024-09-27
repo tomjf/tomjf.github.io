@@ -19,3 +19,4 @@ social: true # includes social icons at the bottom of the page
 
 I am a Research Associate in Machine Learning at Imperial College London in the [EEE Department](https://www.imperial.ac.uk/electrical-engineering/) and [I-X](https://ix.imperial.ac.uk/). My current research focuses on motion-robust and efficient fMRI using new techniques such as Gaussian Splatting.
 
+I was previously a Research Associate in AI-enabled cardiac MRI at King's College London in the [Cardiac MRI group](https://x.com/KCL_CardiacMR) in the [School of Biomedical Engineering and Imaging Sciences](https://www.kcl.ac.uk/bmeis). I completed my PhD in [Astrophysics at UCL](https://www.ucl.ac.uk/astrophysics) where I researched the contribution of galaxies towards cosmic reionisation and the amount of molecular hydrogen in the local Universe.
