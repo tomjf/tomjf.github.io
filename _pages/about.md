@@ -12,7 +12,7 @@ profile:
     <p>t.fletcher24@imperial.ac.uk</p>
     <p>[<a href="https://scholar.google.co.uk/citations?user=FcaLV1gAAAAJ&hl=en">Google Scholar</a>]</p>
     <p>[<a href="https://github.com/tomjf">Github</a>]</p>
-    <p>Office: <a href="https://www.imperial.ac.uk/i-hub/find-i-hub">I-HUB</a> Level 5</p>
+    <p>Office: <a href="https://www.imperial.ac.uk/i-hub/find-i-hub">I-HUB</a>, Level 5</p>
 
 news: true # includes a list of news items
 selected_papers: false # includes a list of papers marked as "selected={true}"
