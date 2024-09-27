@@ -1,8 +1,8 @@
 ---
 layout: post
-date: 2015-10-22 15:59:00-0400
+date: 2024-09-27
 inline: true
 related_posts: false
 ---
 
-A simple inline announcement.
+I am hiring for a research project in using Gaussian Splatting for Medical Imaging. This will be a short (~9 weeks), part-time role as a Research Assistant at I-X. Please contact me if you are interested.
