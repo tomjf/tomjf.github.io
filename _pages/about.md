@@ -17,5 +17,5 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-I am a Research Associate in Machine Learning at Imperial College London at [I-X](https://ix.imperial.ac.uk/).
+I am a Research Associate in Machine Learning at Imperial College London in the [EEE Department](https://www.imperial.ac.uk/electrical-engineering/) and [I-X](https://ix.imperial.ac.uk/). My current research focuses on motion-robust and efficient fMRI using new techniques such as Gaussian Splatting.
 
