@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tom Fletcher | ML Scientist</title>
+  <meta name="description" content="Thomas J. Fletcher - Machine Learning Scientist specialising in AI, Medical Imaging, and Astrophysics.">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta property="og:title" content="Tom Fletcher | ML Scientist">
+  <meta property="og:description" content="Machine Learning Scientist specialising in AI, Medical Imaging, and Astrophysics.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://tomjf.github.io/">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: #0a0a0f;
+      color: #e0e0e8;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: #00f0ff; text-decoration: none; transition: color 0.3s; }
+    a:hover { color: #b44aff; }
+    ::selection { background: #00f0ff22; color: #00f0ff; }
+
+    /* ── Design Tokens ─────────────────────────────────── */
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a25;
+      --text: #e0e0e8;
+      --text-dim: #8888a0;
+      --cyan: #00f0ff;
+      --purple: #b44aff;
+      --green: #00ff88;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* ── Particle Canvas ───────────────────────────────── */
+    #particles {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* ── Navbar ─────────────────────────────────────────── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+    .navbar.scrolled {
+      background: #0a0a0fcc;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid #ffffff08;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--cyan);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+    .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Sections ───────────────────────────────────────── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+    .section-title .accent { color: var(--cyan); }
+
+    /* ── Hero ───────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .terminal {
+      background: var(--surface);
+      border: 1px solid #ffffff10;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 700px;
+      overflow: hidden;
+      box-shadow: 0 0 60px #00f0ff08, 0 20px 60px #0005;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #0d0d14;
+      border-bottom: 1px solid #ffffff08;
+    }
+    .terminal-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .terminal-dot.red { background: #ff5f57; }
+    .terminal-dot.yellow { background: #febc2e; }
+    .terminal-dot.green { background: #28c840; }
+    .terminal-bar span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+    .terminal-body {
+      padding: 1.5rem 1.5rem 2rem;
+      font-family: var(--font-mono);
+      text-align: left;
+      min-height: 180px;
+    }
+    .terminal-line {
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .terminal-line .prompt { color: var(--green); }
+    .terminal-line .command { color: var(--cyan); }
+    .terminal-line .hash { color: var(--purple); }
+    .terminal-line .gt { color: var(--text-dim); }
+    .terminal-line .typed { display: inline; }
+    .terminal-cursor {
+      display: inline-block;
+      width: 10px; height: 1.2em;
+      background: var(--cyan);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .hero-cta.visible { opacity: 1; transform: translateY(0); }
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      padding: 0.7rem 1.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: #0a0a0f;
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 20px #00f0ff44;
+      transform: translateY(-2px);
+      color: #0a0a0f;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+    }
+    .btn-outline:hover {
+      background: #00f0ff11;
+      box-shadow: 0 0 20px #00f0ff22;
+      transform: translateY(-2px);
+      color: var(--cyan);
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+    .scroll-indicator.visible { opacity: 1; }
+    .scroll-indicator .chevron {
+      display: block;
+      width: 24px; height: 24px;
+      border-right: 2px solid var(--text-dim);
+      border-bottom: 2px solid var(--text-dim);
+      transform: rotate(45deg);
+      animation: scrollBounce 2s ease infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.5; }
+      50% { transform: rotate(45deg) translateY(6px); opacity: 1; }
+    }
+
+    /* ── About ──────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #00f0ff33;
+      box-shadow: 0 0 24px #00f0ff15;
+      margin-bottom: 1.5rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid #ffffff08;
+      border-radius: 10px;
+      padding: 1.3rem;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .stat-card:hover {
+      border-color: #00f0ff33;
+      box-shadow: 0 0 20px #00f0ff11;
+    }
+    a.stat-card { color: inherit; text-decoration: none; }
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+    /* ── Timeline ──────────────────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--cyan), var(--purple));
+      transform: translateX(-50%);
+      opacity: 0.4;
+    }
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 0 2.5rem 3rem;
+    }
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+      padding-right: 3rem;
+    }
+    .timeline-item:nth-child(even) {
+      left: 50%;
+      text-align: left;
+      padding-left: 3rem;
+    }
+    .timeline-node {
+      position: absolute;
+      top: 0.5rem;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      z-index: 2;
+    }
+    .timeline-item:nth-child(odd) .timeline-node {
+      right: -7px;
+    }
+    .timeline-item:nth-child(even) .timeline-node {
+      left: -7px;
+    }
+    .timeline-card {
+      background: var(--surface);
+      border: 1px solid #ffffff08;
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .timeline-card:hover {
+      border-color: #00f0ff22;
+      box-shadow: 0 0 30px #00f0ff08;
+    }
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--purple);
+      margin-bottom: 0.3rem;
+    }
+    .timeline-role {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-org {
+      font-size: 0.9rem;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ── Projects ───────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid #ffffff08;
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.1s;
+      transform-style: preserve-3d;
+      perspective: 800px;
+      cursor: default;
+    }
+    .project-card:hover {
+      border-color: #00f0ff33;
+      box-shadow: 0 0 30px #00f0ff11;
+    }
+    .project-title {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      background: #00f0ff0c;
+      color: var(--cyan);
+      border: 1px solid #00f0ff22;
+    }
+    .project-link {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ── Publications ──────────────────────────────────── */
+    .pub-list { list-style: none; }
+    .pub-item {
+      background: var(--surface);
+      border: 1px solid #ffffff08;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s;
+    }
+    .pub-item:hover { border-color: #b44aff33; }
+    .pub-title {
+      display: block;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+    a.pub-title:hover { color: var(--cyan); }
+    .pub-authors {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+    }
+    .pub-venue {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--purple);
+    }
+    .pub-scholar-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--cyan);
+      margin-bottom: 2rem;
+    }
+
+    /* ── Skills ─────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid #ffffff08;
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .skill-category {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .skill-category.cat-ml { color: var(--cyan); }
+    .skill-category.cat-lang { color: var(--green); }
+    .skill-category.cat-sci { color: var(--purple); }
+    .skill-category.cat-tools { color: #ff8844; }
+    .skill-category.cat-domains { color: #ff5588; }
+    .skill-category.cat-ai { color: #44ddff; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      background: var(--surface2);
+      color: var(--text-dim);
+      border: 1px solid #ffffff08;
+      transition: all 0.3s;
+      cursor: default;
+    }
+    .skill-card.cat-ml .skill-tag:hover { color: var(--cyan); border-color: var(--cyan); background: #00f0ff0c; box-shadow: 0 0 8px #00f0ff22; }
+    .skill-card.cat-lang .skill-tag:hover { color: var(--green); border-color: var(--green); background: #00ff880c; box-shadow: 0 0 8px #00ff8822; }
+    .skill-card.cat-sci .skill-tag:hover { color: var(--purple); border-color: var(--purple); background: #b44aff0c; box-shadow: 0 0 8px #b44aff22; }
+    .skill-card.cat-tools .skill-tag:hover { color: #ff8844; border-color: #ff8844; background: #ff88440c; box-shadow: 0 0 8px #ff884422; }
+    .skill-card.cat-domains .skill-tag:hover { color: #ff5588; border-color: #ff5588; background: #ff55880c; box-shadow: 0 0 8px #ff558822; }
+    .skill-card.cat-ai .skill-tag:hover { color: #44ddff; border-color: #44ddff; background: #44ddff0c; box-shadow: 0 0 8px #44ddff22; }
+
+    /* ── Contact ────────────────────────────────────────── */
+    #contact { padding-bottom: 4rem; }
+    .contact-terminal {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .contact-line {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .contact-line .prompt { color: var(--green); white-space: nowrap; }
+    .contact-line .cmd { color: var(--text-dim); white-space: nowrap; }
+    .contact-line .arrow { color: var(--purple); }
+    .contact-line .value a { color: var(--cyan); }
+
+    /* ── Scroll Progress Bar ──────────────────────────── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      z-index: 1001;
+      transition: width 0.05s linear;
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-top: 1px solid #ffffff08;
+    }
+
+    /* ── Scroll Reveals ─────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed;
+        top: 0; right: -100%;
+        width: 70%; height: 100vh;
+        background: #0d0d14ee;
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        transition: right 0.3s;
+        border-left: 1px solid #ffffff08;
+      }
+      .nav-links.open { right: 0; }
+      .about-grid { grid-template-columns: 1fr; }
+      .timeline::before { left: 1rem; }
+      .timeline-item,
+      .timeline-item:nth-child(odd),
+      .timeline-item:nth-child(even) {
+        width: 100%;
+        left: 0;
+        text-align: left;
+        padding-left: 3rem;
+        padding-right: 0;
+      }
+      .timeline-item:nth-child(odd) .timeline-node,
+      .timeline-item:nth-child(even) .timeline-node {
+        left: 0.35rem;
+        right: auto;
+      }
+      .terminal-line { font-size: 0.85rem; }
+      section { padding: 4rem 1.2rem; }
+      .section-title { font-size: 1.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .hero-cta { flex-direction: column; align-items: center; }
+    }
+
+    /* ── Reduced Motion ─────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .hero-cta { opacity: 1; transform: none; }
+      .scroll-indicator { opacity: 1; }
+      #particles { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<!-- Particle Canvas -->
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<!-- Navbar -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <a href="#hero" class="nav-logo" aria-label="Home">tomjf_</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">about</a></li>
+    <li><a href="#experience">experience</a></li>
+    <!-- <li><a href="#projects">projects</a></li> -->
+    <li><a href="#publications">publications</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main>
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero" id="hero">
+  <div class="terminal" role="banner">
+    <div class="terminal-bar">
+      <div class="terminal-dot red"></div>
+      <div class="terminal-dot yellow"></div>
+      <div class="terminal-dot green"></div>
+      <span>~/.profile</span>
+    </div>
+    <div class="terminal-body" id="terminalBody">
+      <div class="terminal-line" id="line1">
+        <span class="prompt">$ </span><span class="typed" id="typed1"></span>
+      </div>
+      <div class="terminal-line" id="line2" style="display:none">
+        <span class="gt">&gt; </span><span class="typed" id="typed2"></span>
+      </div>
+      <div class="terminal-line" id="line3" style="display:none">
+        <span class="hash"># </span><span class="typed" id="typed3"></span>
+      </div>
+      <span class="terminal-cursor" id="cursor"></span>
+    </div>
+  </div>
+  <div class="hero-cta" id="heroCta">
+    <a href="#about" class="btn btn-primary">Explore</a>
+    <a href="#contact" class="btn btn-outline">Get in touch</a>
+  </div>
+  <div class="scroll-indicator" id="scrollIndicator" aria-hidden="true">
+    <span class="chevron"></span>
+  </div>
+</section>
+
+<!-- ═══════════════════════ ABOUT ══════════════════════ -->
+<section id="about">
+  <div class="reveal">
+    <h2 class="section-title" style="font-size:1.6rem"><span style="color:var(--green)">$</span> whoami</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <img src="tom-headshot.webp" alt="Thomas J. Fletcher" class="profile-img">
+      <p>I'm a Machine Learning Scientist at <a href="https://groundtruthlabs.com/" target="_blank" rel="noopener"><strong>Ground Truth Labs</strong></a>, building deep learning and computer vision pipelines to analyse bone marrow morphology for blood cancer diagnosis and prognosis.</p>
+      <p>Previously I was a postdoc at Imperial College London developing <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:L8Ckcad2t8MC" target="_blank" rel="noopener">3D Gaussian Splatting techniques for fetal MRI</a>, and at King's College London working on inverse problems in cardiac MRI &mdash; <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:_kc_bZDykSQC" target="_blank" rel="noopener">reconstructing cardiac CINEs from single-heartbeat acquisitions</a> using physics-based deep learning.</p>
+      <p>I obtained a PhD in Astrophysics at UCL, where I studied the role of the first galaxies in reionisation and the gas content driving star formation in local galaxies. I led an international collaboration that <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:2osOgNQ5qMEC" target="_blank" rel="noopener">discovered ionising radiation escaping from some of the earliest galaxies in the Universe</a>.</p>
+    </div>
+    <div class="stats-grid reveal" style="transition-delay: 0.15s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&cstart=20&pagesize=80&citation_for_view=FcaLV1gAAAAJ:YsMSGLbcyi4C" class="stat-card" target="_blank" rel="noopener">
+        <span class="stat-number">PhD</span>
+        <div class="stat-label">Astrophysics, UCL</div>
+      </a>
+      <a href="https://scholar.google.com/citations?user=FcaLV1gAAAAJ&hl=en" class="stat-card" target="_blank" rel="noopener">
+        <span class="stat-number" data-count="1500" data-suffix="+">0</span>
+        <div class="stat-label">Citations</div>
+      </a>
+      <a href="https://scholar.google.com/citations?user=FcaLV1gAAAAJ&hl=en" class="stat-card" target="_blank" rel="noopener">
+        <span class="stat-number" data-count="9">0</span>
+        <div class="stat-label">h-index</div>
+      </a>
+      <a href="https://scholar.google.com/citations?user=FcaLV1gAAAAJ&hl=en" class="stat-card" target="_blank" rel="noopener">
+        <span class="stat-number" data-count="18" data-suffix="+">0</span>
+        <div class="stat-label">Publications</div>
+      </a>
+      <a href="https://github.com/tomjf" class="stat-card" target="_blank" rel="noopener" style="grid-column:1/-1">
+        <span class="stat-number" id="ghContribCount">...</span>
+        <div class="stat-label">GitHub Contributions (last 52 weeks)</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ EXPERIENCE ═════════════════ -->
+<section id="experience">
+  <div class="reveal">
+    <p class="section-label">// experience</p>
+    <h2 class="section-title">Where I've <span class="accent">worked</span></h2>
+  </div>
+  <div class="timeline">
+    <!-- 1 -->
+    <div class="timeline-item reveal">
+      <div class="timeline-node"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">2025 &ndash; Present</div>
+        <div class="timeline-role">Machine Learning Scientist</div>
+        <div class="timeline-org">Ground Truth Labs</div>
+        <div class="timeline-desc">Deep learning and computer vision for digital pathology. Building cell segmentation and classification pipelines for histopathology, supporting clinical trials in haematology.</div>
+      </div>
+    </div>
+    <!-- 2 -->
+    <div class="timeline-item reveal" style="transition-delay: 0.1s">
+      <div class="timeline-node"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">2024 &ndash; 2025</div>
+        <div class="timeline-role">Postdoctoral Researcher</div>
+        <div class="timeline-org">Imperial College London</div>
+        <div class="timeline-desc">Worked on motion-robust and efficient fMRI for infants within the I-X AI initiative, jointly with Trinity College Dublin. Developed Gaussian splatting and machine learning techniques for slice-to-volume reconstruction of highly motion-corrupted MRI acquisitions.</div>
+      </div>
+    </div>
+    <!-- 3 -->
+    <div class="timeline-item reveal" style="transition-delay: 0.2s">
+      <div class="timeline-node"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">2020 &ndash; 2024</div>
+        <div class="timeline-role">Postdoctoral Researcher</div>
+        <div class="timeline-org">King's College London</div>
+        <div class="timeline-desc">Machine learning for inverse problems in cardiac MRI. Developed a deep learning framework to rapidly reconstruct CINEs acquired in a single heartbeat, using networks for estimating non-rigid cardiac motion and physics-based MRI reconstruction. Built invertible neural networks for quantitative cardiac magnetic resonance fingerprinting.</div>
+      </div>
+    </div>
+    <!-- 4 -->
+    <div class="timeline-item reveal" style="transition-delay: 0.3s">
+      <div class="timeline-node"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">2016 &ndash; 2020</div>
+        <div class="timeline-role">PhD Astrophysics</div>
+        <div class="timeline-org">University College London</div>
+        <div class="timeline-desc">Thesis: <em>The Ionising Output and Gas Content of Galaxies</em>. Led an international collaboration using ground and space-based telescopes to discover leaking UV radiation from early galaxies. Used Bayesian statistics to measure the cosmic abundance of molecular hydrogen in the local Universe.</div>
+      </div>
+    </div>
+    <!-- 5 -->
+    <div class="timeline-item reveal" style="transition-delay: 0.4s">
+      <div class="timeline-node"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">2015 &ndash; 2016</div>
+        <div class="timeline-role">MSc Astrophysics</div>
+        <div class="timeline-org">University College London</div>
+        <div class="timeline-desc">Dissertation: <em>The Cosmic Abundance of Molecular Gas</em>.</div>
+      </div>
+    </div>
+    <!-- 6 -->
+    <div class="timeline-item reveal" style="transition-delay: 0.5s">
+      <div class="timeline-node"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">2015</div>
+        <div class="timeline-role">Research Scientist</div>
+        <div class="timeline-org">National Physical Laboratory (NPL)</div>
+        <div class="timeline-desc">Part of the Thermal Imaging group. Delivered accurate and traceable 3D thermal imaging capabilities, including rendering and ray-tracing, for satellites undergoing testing at the European Space Agency's ESTEC facility. Worked on a clinical trial comparing a novel thermal imaging device against non-contact infrared thermometers for diabetic patients.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TODO: Uncomment when projects are ready
+<section id="projects">
+  <div class="reveal">
+    <p class="section-label">// projects</p>
+    <h2 class="section-title">Things I've <span class="accent">built</span></h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-title">Project One</div>
+      <div class="project-desc">Coming soon.</div>
+      <div class="project-tags"></div>
+    </div>
+    <div class="project-card reveal" style="transition-delay: 0.1s">
+      <div class="project-title">Project Two</div>
+      <div class="project-desc">Coming soon.</div>
+      <div class="project-tags"></div>
+    </div>
+    <div class="project-card reveal" style="transition-delay: 0.2s">
+      <div class="project-title">Project Three</div>
+      <div class="project-desc">Coming soon.</div>
+      <div class="project-tags"></div>
+    </div>
+  </div>
+</section>
+-->
+
+<!-- ═══════════════════════ PUBLICATIONS ═══════════════ -->
+<section id="publications">
+  <div class="reveal">
+    <p class="section-label">// publications</p>
+    <h2 class="section-title">Research <span class="accent">output</span></h2>
+  </div>
+  <div class="reveal">
+    <a href="https://scholar.google.com/citations?user=FcaLV1gAAAAJ&hl=en" class="pub-scholar-link" target="_blank" rel="noopener">
+      &rarr; View all on Google Scholar
+    </a>
+  </div>
+  <ul class="pub-list">
+    <li class="pub-item reveal">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:L8Ckcad2t8MC" class="pub-title" target="_blank" rel="noopener">Self-Supervised Slice-to-Volume Reconstruction with Gaussian Representations for Fetal MRI</a>
+      <div class="pub-authors">Y. Wang, T. Fletcher, X. Luo, A. T. Dineen, R. Cusack, C. Qin</div>
+      <div class="pub-venue">arXiv:2601.22990 &middot; 2026</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.03s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:dhFuZR0502QC" class="pub-title" target="_blank" rel="noopener">Super-MoCo-MoDL: A combined super-resolution and motion-corrected undersampled deep-learning reconstruction framework for 3D whole-heart cardiac MRI</a>
+      <div class="pub-authors">A. Phair, S. J. Littlewood, A. Fotaki, T. J. Fletcher, et al.</div>
+      <div class="pub-venue">Journal of Cardiovascular Magnetic Resonance &middot; 2025</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.06s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:4DMP91E08xMC" class="pub-title" target="_blank" rel="noopener">Automated segmentation of thoracic aortic lumen and vessel wall on three-dimensional bright- and black-blood magnetic resonance imaging using nnU-Net</a>
+      <div class="pub-authors">M. Cesario, S. J. Littlewood, J. Nadel, T. J. Fletcher, et al.</div>
+      <div class="pub-venue">Journal of Cardiovascular Magnetic Resonance &middot; 2025</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.09s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:aqlVkmm33-oC" class="pub-title" target="_blank" rel="noopener">End-to-end deep learning-based motion correction and reconstruction for accelerated whole-heart joint T1/T2 mapping</a>
+      <div class="pub-authors">L. Felsner, C. Velasco, A. Phair, T. J. Fletcher, et al.</div>
+      <div class="pub-venue">Magnetic Resonance Imaging &middot; 2025</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.12s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:qxL8FJ1GzNcC" class="pub-title" target="_blank" rel="noopener">Combined super resolution and motion-corrected undersampled DL reconstruction for 18-fold-accelerated 3D whole-heart MRI</a>
+      <div class="pub-authors">A. Phair, S. J. Littlewood, A. Fotaki, T. J. Fletcher, et al.</div>
+      <div class="pub-venue">Journal of Cardiovascular Magnetic Resonance &middot; 2025</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.15s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:KlAtU1dfN6UC" class="pub-title" target="_blank" rel="noopener">A motion-corrected deep-learning reconstruction framework for accelerating whole-heart magnetic resonance imaging in patients with congenital heart disease</a>
+      <div class="pub-authors">A. Phair, A. Fotaki, L. Felsner, T. J. Fletcher, et al.</div>
+      <div class="pub-venue">Journal of Cardiovascular Magnetic Resonance &middot; 2024</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.18s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:_kc_bZDykSQC" class="pub-title" target="_blank" rel="noopener">Rapid Motion Estimation and Motion-corrected End-to-end Deep Learning Reconstruction for 1 Heartbeat CINE</a>
+      <div class="pub-authors">T. Fletcher, G. L. Da Cruz, L. Felsner, A. Phair, H. Qi, R. Botnar, C. Prieto</div>
+      <div class="pub-venue">Journal of Cardiovascular Magnetic Resonance &middot; 2024</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.21s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:YOwf2qJgpHMC" class="pub-title" target="_blank" rel="noopener">Data-consistent super resolution for 3D whole-heart MRI using a motion-corrected deep-learning reconstruction framework</a>
+      <div class="pub-authors">A. Phair, A. Fotaki, L. Felsner, T. J. Fletcher, et al.</div>
+      <div class="pub-venue">2024</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.24s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:MXK_kJrjxJIC" class="pub-title" target="_blank" rel="noopener">Artificial intelligence in cardiac magnetic resonance fingerprinting</a>
+      <div class="pub-authors">C. Velasco, T. J. Fletcher, R. M. Botnar, C. Prieto</div>
+      <div class="pub-venue">Frontiers in Cardiovascular Medicine &middot; 2022</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.27s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:kNdYIx-mwKoC" class="pub-title" target="_blank" rel="noopener">Dictionary Generation and Matching with Conditional Invertible Neural Networks for Cardiac MR Fingerprinting</a>
+      <div class="pub-authors">T. J. Fletcher, C. Velasco, G. Cruz, A. Schneider, R. M. Botnar, C. Prieto</div>
+      <div class="pub-venue">Proceedings of the 30th Annual Meeting of ISMRM &middot; 2022</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.3s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:Y0pCki6q_DkC" class="pub-title" target="_blank" rel="noopener">Centrally concentrated molecular gas driving galactic-scale ionized gas outflows in star-forming galaxies</a>
+      <div class="pub-authors">L. M. Hogarth, A. Saintonge, L. Cortese, T. A. Davis, S. M. Croom, ..., T. J. Fletcher, et al.</div>
+      <div class="pub-venue">Monthly Notices of the Royal Astronomical Society &middot; 2021</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.33s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:8k81kl-MbHgC" class="pub-title" target="_blank" rel="noopener">A neural network for rapid generation of T1, T2, T1rho dictionaries for cardiac MR fingerprinting</a>
+      <div class="pub-authors">T. Fletcher, C. Velasco, G. Cruz, C. Prieto, R. M. Botnar</div>
+      <div class="pub-venue">Proceedings of the 29th Annual Meeting of ISMRM &middot; 2021</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.36s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:Tyk-4Ss8FVUC" class="pub-title" target="_blank" rel="noopener">The cosmic abundance of cold gas in the local Universe</a>
+      <div class="pub-authors">T. J. Fletcher, A. Saintonge, P. S. Soares, A. Pontzen</div>
+      <div class="pub-venue">arXiv:2002.04959 &middot; 2020</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.39s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:2osOgNQ5qMEC" class="pub-title" target="_blank" rel="noopener">The Lyman Continuum Escape Survey: Ionizing Radiation from [O III]-strong Sources at a Redshift of 3.1</a>
+      <div class="pub-authors">T. J. Fletcher, M. Tang, B. E. Robertson, K. Nakajima, R. S. Ellis, D. P. Stark, A. Inoue</div>
+      <div class="pub-venue">The Astrophysical Journal &middot; 2019</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.42s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:d1gkVwhDpl0C" class="pub-title" target="_blank" rel="noopener">The onset of star formation 250 million years after the Big Bang</a>
+      <div class="pub-authors">T. Hashimoto, N. Laporte, K. Mawatari, R. S. Ellis, A. K. Inoue, E. Zackrisson, ..., T. J. Fletcher, et al.</div>
+      <div class="pub-venue">Nature &middot; 2018</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.45s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:9yKSN-GCB0IC" class="pub-title" target="_blank" rel="noopener">The mean ultraviolet spectrum of a representative sample of faint z&thinsp;&sim;&thinsp;3 Lyman alpha emitters</a>
+      <div class="pub-authors">K. Nakajima, T. Fletcher, R. S. Ellis, B. E. Robertson, I. Iwata</div>
+      <div class="pub-venue">Monthly Notices of the Royal Astronomical Society &middot; 2018</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.48s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:UeHWp8X0CEIC" class="pub-title" target="_blank" rel="noopener">Comparison of non-contact infrared skin thermometers</a>
+      <div class="pub-authors">T. Fletcher, A. Whittam, R. Simpson, G. Machin</div>
+      <div class="pub-venue">Journal of Medical Engineering &amp; Technology &middot; 2018</div>
+    </li>
+    <li class="pub-item reveal" style="transition-delay: 0.51s">
+      <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=FcaLV1gAAAAJ&citation_for_view=FcaLV1gAAAAJ:qjMakFHDy7sC" class="pub-title" target="_blank" rel="noopener">xCOLD GASS: the complete IRAM 30 m legacy survey of molecular gas for galaxy evolution studies</a>
+      <div class="pub-authors">A. Saintonge, B. Catinella, L. J. Tacconi, G. Kauffmann, R. Genzel, L. Cortese, ..., T. J. Fletcher, et al.</div>
+      <div class="pub-venue">The Astrophysical Journal Supplement Series &middot; 2017</div>
+    </li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════ SKILLS ═════════════════════ -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-label">// skills</p>
+    <h2 class="section-title">Tech <span class="accent">stack</span></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card cat-ml reveal">
+      <div class="skill-category cat-ml">ML / AI</div>
+      <div class="skill-tags">
+        <span class="skill-tag">PyTorch</span>
+        <span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">scikit-learn</span>
+        <span class="skill-tag">segmentation-models-pytorch</span>
+        <span class="skill-tag">MLflow</span>
+        <span class="skill-tag">Pydantic</span>
+        <span class="skill-tag">Computer Vision</span>
+      </div>
+    </div>
+    <div class="skill-card cat-lang reveal" style="transition-delay: 0.1s">
+      <div class="skill-category cat-lang">Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">MATLAB</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">R</span>
+        <span class="skill-tag">Bash</span>
+        <span class="skill-tag">LaTeX</span>
+      </div>
+    </div>
+    <div class="skill-card cat-sci reveal" style="transition-delay: 0.2s">
+      <div class="skill-category cat-sci">Scientific Computing</div>
+      <div class="skill-tags">
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">SciPy</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">Matplotlib</span>
+        <span class="skill-tag">Seaborn</span>
+        <span class="skill-tag">plotnine</span>
+        <span class="skill-tag">scikit-image</span>
+        <span class="skill-tag">Shapely</span>
+        <span class="skill-tag">OpenCV</span>
+        <span class="skill-tag">Jupyter</span>
+      </div>
+    </div>
+    <div class="skill-card cat-tools reveal" style="transition-delay: 0.3s">
+      <div class="skill-category cat-tools">Tools & Infrastructure</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">GCP</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">uv</span>
+        <span class="skill-tag">Ruff</span>
+        <span class="skill-tag">Next.js</span>
+        <span class="skill-tag">Tailwind CSS</span>
+        <span class="skill-tag">React</span>
+      </div>
+    </div>
+    <div class="skill-card cat-domains reveal" style="transition-delay: 0.4s">
+      <div class="skill-category cat-domains">Domains</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Histopathology</span>
+        <span class="skill-tag">Digital Pathology</span>
+        <span class="skill-tag">Cell Segmentation</span>
+        <span class="skill-tag">Clinical Trials</span>
+        <span class="skill-tag">Inverse Problems</span>
+        <span class="skill-tag">Gaussian Splatting</span>
+        <span class="skill-tag">MRI</span>
+        <span class="skill-tag">Medical Imaging</span>
+        <span class="skill-tag">Astrophysics</span>
+        <span class="skill-tag">Cosmology</span>
+        <span class="skill-tag">Metrology</span>
+      </div>
+    </div>
+    <div class="skill-card cat-ai reveal" style="transition-delay: 0.5s">
+      <div class="skill-category cat-ai">AI-Assisted Dev</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Claude Code</span>
+        <span class="skill-tag">Cursor</span>
+        <span class="skill-tag">GitHub Copilot</span>
+        <span class="skill-tag">Claude Skills</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CONTACT ════════════════════ -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-label">// contact</p>
+    <h2 class="section-title">Get in <span class="accent">touch</span></h2>
+  </div>
+  <div class="terminal contact-terminal reveal" style="transition-delay: 0.1s">
+    <div class="terminal-bar">
+      <div class="terminal-dot red"></div>
+      <div class="terminal-dot yellow"></div>
+      <div class="terminal-dot green"></div>
+      <span>~/contact</span>
+    </div>
+    <div class="terminal-body">
+      <div class="contact-line">
+        <span class="prompt">$</span>
+        <span class="cmd">echo $GITHUB</span>
+        <span class="arrow">&rarr;</span>
+        <span class="value"><a href="https://github.com/tomjf" target="_blank" rel="noopener">github.com/tomjf</a></span>
+      </div>
+      <div class="contact-line">
+        <span class="prompt">$</span>
+        <span class="cmd">echo $LINKEDIN</span>
+        <span class="arrow">&rarr;</span>
+        <span class="value"><a href="https://linkedin.com/in/tomjfletcher" target="_blank" rel="noopener">linkedin.com/in/tomjfletcher</a></span>
+      </div>
+      <div class="contact-line">
+        <span class="prompt">$</span>
+        <span class="cmd">echo $SCHOLAR</span>
+        <span class="arrow">&rarr;</span>
+        <span class="value"><a href="https://scholar.google.com/citations?user=FcaLV1gAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a></span>
+      </div>
+      <div class="contact-line">
+        <span class="prompt">$</span>
+        <span class="cmd">echo $LOCATION</span>
+        <span class="arrow">&rarr;</span>
+        <span class="value" style="color:var(--text-dim)">London, UK</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2026 Thomas J. Fletcher. Built with plain HTML, CSS &amp; JS.</p>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Reduced Motion Check ─────────────────────────────
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Typing Effect ────────────────────────────────────
+  const lines = [
+    { el: 'typed1', text: 'Tom Fletcher', speed: 55, showEl: 'line1' },
+    { el: 'typed2', text: 'Machine Learning Scientist', speed: 35, showEl: 'line2' },
+    { el: 'typed3', text: 'AI | Histopathology | Medical Imaging | Astrophysics', speed: 25, showEl: 'line3' }
+  ];
+  const cursor = document.getElementById('cursor');
+
+  async function typeLine(cfg) {
+    const el = document.getElementById(cfg.el);
+    const lineEl = document.getElementById(cfg.showEl);
+    lineEl.style.display = '';
+
+    // Move cursor to this line
+    lineEl.appendChild(cursor);
+
+    for (let i = 0; i < cfg.text.length; i++) {
+      el.textContent += cfg.text[i];
+      await new Promise(r => setTimeout(r, cfg.speed));
+    }
+  }
+
+  async function runTyping() {
+    // Skip typing on revisit
+    const skipTyping = sessionStorage.getItem('typingDone') || prefersReducedMotion;
+    if (skipTyping) {
+      lines.forEach(cfg => {
+        document.getElementById(cfg.showEl).style.display = '';
+        document.getElementById(cfg.el).textContent = cfg.text;
+      });
+      document.getElementById('line3').appendChild(cursor);
+      showHeroCta();
+      return;
+    }
+
+    for (const cfg of lines) {
+      await typeLine(cfg);
+      await new Promise(r => setTimeout(r, 200));
+    }
+    sessionStorage.setItem('typingDone', '1');
+    showHeroCta();
+  }
+
+  function showHeroCta() {
+    document.getElementById('heroCta').classList.add('visible');
+    document.getElementById('scrollIndicator').classList.add('visible');
+  }
+
+  // ── Particle Network ────────────────────────────────
+  function initParticles() {
+    if (prefersReducedMotion) return;
+
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles, mouse = { x: -999, y: -999 };
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 60 : 120;
+    const connectionDist = 150;
+    const mouseRepelDist = 120;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          r: Math.random() * 2 + 1,
+          color: Math.random() > 0.5 ? 'rgba(0,240,255,' : 'rgba(180,74,255,'
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        // Mouse repulsion
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < mouseRepelDist && dist > 0) {
+          const force = (mouseRepelDist - dist) / mouseRepelDist * 0.02;
+          p.vx += (dx / dist) * force;
+          p.vy += (dy / dist) * force;
+        }
+
+        // Damping
+        p.vx *= 0.999;
+        p.vy *= 0.999;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        if (p.y > h) p.y = 0;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + '0.3)';
+        ctx.fill();
+
+        // Connection lines
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const cdx = p.x - p2.x;
+          const cdy = p.y - p2.y;
+          const cdist = Math.sqrt(cdx * cdx + cdy * cdy);
+          if (cdist < connectionDist) {
+            const alpha = (1 - cdist / connectionDist) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = 'rgba(0,240,255,' + alpha + ')';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw binary star system (easter egg)
+      drawBinarySystem(ctx);
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    createParticles();
+    draw();
+
+    window.addEventListener('resize', () => { resize(); createParticles(); });
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
+  }
+
+  // ── Scroll Reveals ──────────────────────────────────
+  function initReveals() {
+    if (prefersReducedMotion) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // ── Navbar ──────────────────────────────────────────
+  function initNavbar() {
+    const navbar = document.querySelector('.navbar');
+    const links = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id]');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    // Scroll state
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+      // Active section
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 200) {
+          current = sec.getAttribute('id');
+        }
+      });
+      links.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    });
+
+    // Hamburger
+    hamburger.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      hamburger.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close menu on link click
+    links.forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // ── Project Card Tilt ───────────────────────────────
+  function initCardTilt() {
+    if (prefersReducedMotion) return;
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+      });
+    });
+  }
+
+  // ── Scroll Progress Bar ────────────────────────────
+  function initScrollProgress() {
+    const bar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (scrollTop / docHeight * 100) + '%';
+    });
+  }
+
+  // ── Animated Stat Counters ────────────────────────
+  function initStatCounters() {
+    const counters = document.querySelectorAll('.stat-number[data-count]');
+    let triggered = false;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !triggered) {
+          triggered = true;
+          counters.forEach(el => animateCounter(el));
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const grid = document.querySelector('.stats-grid');
+    if (grid) observer.observe(grid);
+
+    function animateCounter(el) {
+      const target = parseInt(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1500;
+      const start = performance.now();
+
+      function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(eased * target);
+        el.textContent = current.toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+  }
+
+
+  // ── GitHub Contributions Fetch ──────────────────────
+  function initGitHubContributions() {
+    const el = document.getElementById('ghContribCount');
+    if (!el) return;
+
+    function setCount(n) {
+      el.dataset.count = n;
+      el.dataset.suffix = '+';
+      el.textContent = n.toLocaleString() + '+';
+    }
+
+    // Fetch the contributions calendar SVG from GitHub
+    fetch('https://github.com/users/tomjf/contributions', { mode: 'cors' })
+      .then(r => { if (!r.ok) throw new Error('not ok'); return r.text(); })
+      .then(html => {
+        const matches = html.match(/data-count="(\d+)"/g);
+        if (matches) {
+          let total = 0;
+          matches.forEach(m => { total += parseInt(m.match(/\d+/)[0]); });
+          setCount(total);
+        } else {
+          throw new Error('no matches');
+        }
+      })
+      .catch(() => {
+        // CORS blocks this from file:// - fallback to static
+        setCount(506);
+      });
+  }
+
+  // ── Binary Star Easter Egg ────────────────────────
+  // Shared state - the particle draw loop renders these
+  let binarySystem = null;
+
+  function initBinaryStars() {
+    if (prefersReducedMotion) return;
+    setTimeout(() => {
+      const h = window.innerHeight;
+      binarySystem = {
+        cx: -80,
+        cy: h * (0.2 + Math.random() * 0.6),
+        vx: 0.4 + Math.random() * 0.3,
+        vy: (Math.random() - 0.5) * 0.15,
+        angle: 0,
+        orbitRadius: 25 + Math.random() * 15,
+        speed: 0.02 + Math.random() * 0.01
+      };
+    }, 15000);
+  }
+
+  function drawBinarySystem(ctx) {
+    if (!binarySystem) return;
+    const bs = binarySystem;
+
+    bs.cx += bs.vx;
+    bs.cy += bs.vy;
+    bs.angle += bs.speed;
+
+    const r = bs.orbitRadius;
+    const x1 = bs.cx + Math.cos(bs.angle) * r;
+    const y1 = bs.cy + Math.sin(bs.angle) * r;
+    const x2 = bs.cx + Math.cos(bs.angle + Math.PI) * r;
+    const y2 = bs.cy + Math.sin(bs.angle + Math.PI) * r;
+
+    // Star 1 - cyan, brighter
+    const g1 = ctx.createRadialGradient(x1, y1, 0, x1, y1, 18);
+    g1.addColorStop(0, 'rgba(0,240,255,0.6)');
+    g1.addColorStop(0.3, 'rgba(0,240,255,0.15)');
+    g1.addColorStop(1, 'rgba(0,240,255,0)');
+    ctx.beginPath();
+    ctx.arc(x1, y1, 18, 0, Math.PI * 2);
+    ctx.fillStyle = g1;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x1, y1, 3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(200,250,255,0.9)';
+    ctx.fill();
+
+    // Star 2 - purple, slightly smaller
+    const g2 = ctx.createRadialGradient(x2, y2, 0, x2, y2, 14);
+    g2.addColorStop(0, 'rgba(180,74,255,0.5)');
+    g2.addColorStop(0.3, 'rgba(180,74,255,0.12)');
+    g2.addColorStop(1, 'rgba(180,74,255,0)');
+    ctx.beginPath();
+    ctx.arc(x2, y2, 14, 0, Math.PI * 2);
+    ctx.fillStyle = g2;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x2, y2, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(220,180,255,0.85)';
+    ctx.fill();
+
+    // Faint line between them
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = 'rgba(180,74,255,0.08)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Remove when off screen
+    if (bs.cx > window.innerWidth + 100) binarySystem = null;
+  }
+
+  // ── Init ────────────────────────────────────────────
+  // Use 'load' instead of 'DOMContentLoaded' so fonts/resources are
+  // fully loaded before animation starts (prevents Chrome tab spinner).
+  window.addEventListener('load', () => {
+    runTyping();
+    initParticles();
+    initReveals();
+    initNavbar();
+    initCardTilt();
+    initScrollProgress();
+    initStatCounters();
+    initGitHubContributions();
+    initBinaryStars();
+  });
+})();
+</script>
+</body>
+</html>
